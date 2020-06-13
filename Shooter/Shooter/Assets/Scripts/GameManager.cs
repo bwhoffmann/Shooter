@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public int score;
     public GameObject player;
+    public List<GameObject> enemyList;
 
     void Awake()
     {
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            enemyList = new List<GameObject>();
         }
         else
         {

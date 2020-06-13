@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     private Transform tf;
     public float turnSpeed = 110f; //sets base turn speed, can be changed
     public float moveSpeed = 5f; //sets base move speed, can be changed
+    public GameObject bulletPrefab;
+    public float bulletSpeed = 6f;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,8 +35,9 @@ public class Player : MonoBehaviour
 
     public void Shoot()
     {
-        // To Do: Implement Shooting
-        Debug.Log("Shooting Not Implemented Yet.");
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+        bullet.GetComponent<Bullet>().bulletSpeed = bulletSpeed;
+        Destroy(bullet, 2);
     }
 
     public void HandleRotation()
@@ -47,5 +50,21 @@ public class Player : MonoBehaviour
         {
             tf.Rotate(0, 0, -turnSpeed * Time.deltaTime); //Rotates player right when pressing right arrow
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D otherObject)
+    {
+        //Kills player object when they run into another object
+        Die();
+    }
+
+    void Die()
+    {
+        Destroy(this.gameObject);
+    }
+
+    void OnDestroy()
+    {
+        GameManager.instance.player = null;
     }
 }
