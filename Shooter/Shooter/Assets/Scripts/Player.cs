@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Transform tf;
+    public float lives;
     public float turnSpeed = 110f; //sets base turn speed, can be changed
     public float moveSpeed = 5f; //sets base move speed, can be changed
     public GameObject bulletPrefab;
@@ -54,13 +55,21 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D otherObject)
     {
-        //Kills player object when they run into another object
+        if(lives > 0)
+        {
+            lives = lives - 1;
+            transform.position = Vector3.zero;
+        }
+        else
+        {
+        //Kills player object when they run out of lives
         Die();
+        }
     }
 
     void Die()
     {
-        Destroy(this.gameObject);
+        Application.Quit();
     }
 
     void OnDestroy()
